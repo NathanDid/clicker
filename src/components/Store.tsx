@@ -1,4 +1,4 @@
-import items from './items.json'
+import items from '../items.json'
 import {Item} from './Game'
 
 type Props = {
