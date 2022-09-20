@@ -13,7 +13,7 @@ export type State = {
     linesPerSecond: number
 }
 
-const initialState:State = {
+export const initialState:State = {
     lines: 0,
     ownedItems: [],
     linesPerSecond: 0
@@ -39,12 +39,16 @@ export const gameSlice = createSlice({
             ...state,
             lines: state.lines + payload.lines
         }),
-        buy: (state, {payload} : BuyAction) => ({
-            ...state,
-            lines: state.lines - payload.item.cost,
-            linesPerSecond: state.linesPerSecond + payload.item.multiplier,
-            ownedItems: [...state.ownedItems, payload.item]
-        }),
+        buy: (state, {payload} : BuyAction) => {
+            if (state.lines < payload.item.cost) throw new Error('Cant buy item')
+
+            return {
+                ...state,
+                lines: state.lines - payload.item.cost,
+                linesPerSecond: state.linesPerSecond + payload.item.multiplier,
+                ownedItems: [...state.ownedItems, payload.item]
+            }
+        },
         loop: (state) => {
             const multiplier = state.ownedItems.reduce((multiplier, item) => {
                 return multiplier + item.multiplier;
@@ -58,9 +62,11 @@ export const gameSlice = createSlice({
     }
 })
 
-export const linesSelector = (state: RootState) => state.game.lines
-export const ownedItemsSelector = (state: RootState) => state.game.ownedItems
-export const linesPerSecondSelector = (state: RootState) => state.game.linesPerSecond
+export type SelectableState = Pick<RootState, 'game'>
+
+export const linesSelector = (state: SelectableState) => state.game.lines
+export const ownedItemsSelector = (state: SelectableState) => state.game.ownedItems
+export const linesPerSecondSelector = (state: SelectableState) => state.game.linesPerSecond
 
 export const {
     generateLines,

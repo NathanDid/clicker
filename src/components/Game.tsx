@@ -26,7 +26,11 @@ const Game = () => {
     }
 
     const handleBuy = (item: Item) => {
-        dispatch(buy({item: item}))
+        try {
+            dispatch(buy({item: item}))
+        } catch (error) {
+            console.log('On essaie de tricher ?')
+        }
     }
 
     useEffect(() => {
