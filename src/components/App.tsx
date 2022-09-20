@@ -8,9 +8,9 @@ import Game from "./Game";
 import Home from "./Home";
 
 import { Provider } from 'react-redux'
-import configureStore from '../configureStore'
+import createStore from '../configureStore'
 
-const store = configureStore()
+const store = createStore()
 
 // import your route components too
 

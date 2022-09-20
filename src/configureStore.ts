@@ -1,15 +1,21 @@
-import { createStore, applyMiddleware } from 'redux'
+import { configureStore } from '@reduxjs/toolkit'
+import gameReducer, { State } from './modules/game';
 
-import { rootReducer } from './modules'
-import { composeWithDevTools } from 'redux-devtools-extension';
+export type RootState = {
+  game: State
+}
 
-const configureStore = () => {
-  const store = createStore(rootReducer, composeWithDevTools(
-    applyMiddleware(),
-    // other store enhancers if any
-  ))
+export const rootReducer = {
+  game: gameReducer
+}
+
+export default function createStore() {
+  const store = configureStore({
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) => ([
+      ...getDefaultMiddleware()
+    ])
+  })
 
   return store
 }
-
-export default configureStore
