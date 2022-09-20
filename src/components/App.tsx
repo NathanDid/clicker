@@ -6,6 +6,7 @@ import {
 import Main from "../layout/Main";
 import Game from "./Game";
 import Home from "./Home";
+import Settings from "./Settings"
 
 import { Provider } from 'react-redux'
 import createStore from '../configureStore'
@@ -23,6 +24,7 @@ const App = () => {
                     <Route path="/" element={<Main />}>
                         <Route index element={<Home />} />
                         <Route path="gitcoin/:name" element={<Game />} />
+                        <Route path="settings" element={<Settings />} />
                     </Route>
                     </Routes>
                 </BrowserRouter>

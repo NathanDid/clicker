@@ -1,4 +1,5 @@
-import items from '../items.json'
+import { useSelector } from 'react-redux'
+import { itemsSelector } from '../modules/settings'
 import {Item} from './Game'
 
 type Props = {
@@ -7,6 +8,8 @@ type Props = {
 }
 
 const Store = (props: Props) => {
+    const items = useSelector(itemsSelector)
+
     return (
         <>
             <ul>

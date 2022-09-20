@@ -1,12 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit'
-import gameReducer, { State } from './modules/game';
+import gameReducer, { State as GameState } from './modules/game';
+import settingsReducer, { State as SettingsState } from './modules/settings';
+
 
 export type RootState = {
-  game: State
+  game: GameState,
+  settings: SettingsState
 }
 
 export const rootReducer = {
-  game: gameReducer
+  game: gameReducer,
+  settings: settingsReducer
 }
 
 export default function createStore() {
