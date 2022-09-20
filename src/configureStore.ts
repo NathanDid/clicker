@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
-import gameReducer, { State as GameState } from './modules/game';
-import settingsReducer, { State as SettingsState } from './modules/settings';
+import gameReducer, { State as GameState } from './modules/game'
+import createSagaMiddleware from 'redux-saga'
+import settingsReducer, { State as SettingsState } from './modules/settings'
 
 
 export type RootState = {
@@ -13,13 +14,18 @@ export const rootReducer = {
   settings: settingsReducer
 }
 
-export default function createStore() {
+export default function createStore(saga: any) {
+  const sagaMiddleware = createSagaMiddleware()
+
   const store = configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) => ([
+      sagaMiddleware,
       ...getDefaultMiddleware()
     ])
   })
+
+  sagaMiddleware.run(saga)
 
   return store
 }

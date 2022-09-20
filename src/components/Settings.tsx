@@ -1,12 +1,17 @@
-import { FormEvent, useState } from "react"
+import { FormEvent, useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
-import { addItem, itemsSelector } from "../modules/settings"
+import { addItem, fetchItems, itemsSelector, resetItems } from "../modules/settings"
 import { Item } from "./Game"
 import Input from "./Input"
 
 const Settings = () => {
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(fetchItems({}))
+      }, [])
+
     const defaultCost = 10
     const defaultMulitplier = 1
 
@@ -41,6 +46,10 @@ const Settings = () => {
         resetForm()
     }
 
+    const handleReset = () => {
+        dispatch(resetItems())
+    }
+
     const resetForm = () => {
         setItemName('')
         setItemCost(defaultCost)
@@ -50,12 +59,16 @@ const Settings = () => {
     return (
         <>
             <h1>Settings</h1>
+
             <form onSubmit={handleSubmit}>
                 <Input type="text" value={itemName} name="itemName" onChange={handleItemNameChange}/>
                 <Input type="number" value={itemCost} name="itemCost" onChange={handleItemCostChange}/>
                 <Input type="number" value={itemMultiplier} name="itemMultiplier" onChange={handleItemMultiplierChange}/>
                 <button type="submit">Submit</button>
             </form>
+
+            <button onClick={handleReset}>Clear</button>
+
             <ul>
                 {items.map((item, index) => (
                     <li key={index}>

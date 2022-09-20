@@ -17,18 +17,28 @@ export type AddItemAction = {
 }
 
 export const settingsSlice = createSlice({
-    name: 'user',
+    name: 'settings',
     initialState,
     reducers: {
-        addItem: (state, { payload } : AddItemAction) => ({
+        addItem: (state, action) => ({
             ...state,
-            storeItems: [...state.storeItems, payload.item],
+            storeItems: [...state.storeItems, action.payload.item],
+        }),
+        fetchItems: (state, { payload }) => ({
+            ...state,
+            storeItems: payload
+        }),
+        resetItems: (state) => ({
+            ...state,
+            storeItems: []
         })
     }
 })
 
 export const {
     addItem,
+    fetchItems,
+    resetItems
 } = settingsSlice.actions
 
 export const itemsSelector = (state: RootState) => state.settings.storeItems

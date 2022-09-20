@@ -10,10 +10,9 @@ import Settings from "./Settings"
 
 import { Provider } from 'react-redux'
 import createStore from '../configureStore'
+import saga from '../saga'
 
-const store = createStore()
-
-// import your route components too
+const store = createStore(saga)
 
 const App = () => {
     return (
